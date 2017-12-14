@@ -68,6 +68,23 @@ module Bosh::Director::DeploymentPlan
           job_networks_parser.parse(job_spec, 'job-name', manifest_networks)
         }.to raise_error BD::JobInvalidStaticIPs, "Instance group 'job-name' specifies static IP '192.168.1.2' more than once"
       end
+
+      context 'when the given network is a shared vip network' do
+        let(:manifest_networks) { [VipNetwork.new({'name' => 'a', 'cloud_properties' => {'shared' => true}}, logger)] }
+        let(:job_spec) do
+          job = Bosh::Spec::Deployments.simple_manifest['jobs'].first
+          job_network = job['networks'].first
+          job_network['static_ips'] = ['192.168.1.2', '192.168.1.2']
+          job_network['cloud_properties'] =  {'shared' => true}
+          job_network['type'] = 'vip'
+          job
+        end
+        it 'does not raise an error' do
+          expect {
+            job_networks_parser.parse(job_spec, 'job-name', manifest_networks)
+          }.not_to raise_error
+        end
+      end
     end
 
     context 'when called with a valid instance group spec' do

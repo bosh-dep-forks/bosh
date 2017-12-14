@@ -1542,13 +1542,15 @@ module Bosh::Director
                   ManualNetwork,
                   name: 'first-network',
                   has_azs?: true,
-                  validate_reference_from_job!: true
+                  validate_reference_from_job!: true,
+                  shared?: false
                 )
                 second_network = instance_double(
                   ManualNetwork,
                   name: 'second-network',
                   has_azs?: true,
-                  validate_reference_from_job!: true
+                  validate_reference_from_job!: true,
+                  shared?: false
                 )
                 allow(deployment_plan).to receive(:networks).and_return([first_network, second_network])
 

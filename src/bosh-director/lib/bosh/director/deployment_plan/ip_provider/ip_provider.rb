@@ -30,6 +30,8 @@ module Bosh::Director
         end
 
         if reservation.network.is_a?(VipNetwork)
+          return if reservation.network.shared?
+
           reserve_vip(reservation)
           return
         end

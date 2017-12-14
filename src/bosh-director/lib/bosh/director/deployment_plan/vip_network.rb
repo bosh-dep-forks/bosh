@@ -45,6 +45,11 @@ module Bosh::Director
       def has_azs?(az_names)
         true
       end
+
+      def shared?
+        return false unless @cloud_properties
+        @cloud_properties.fetch('shared', false)
+      end
     end
   end
 end

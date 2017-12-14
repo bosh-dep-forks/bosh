@@ -19,7 +19,7 @@ describe Bosh::Director::DeploymentPlan::InstanceGroup do
   let(:stemcell) { instance_double('Bosh::Director::DeploymentPlan::Stemcell') }
   let(:env) { instance_double('Bosh::Director::DeploymentPlan::Env') }
 
-  let(:network) { instance_double('Bosh::Director::DeploymentPlan::Network', name: 'fake-network-name', validate_reference_from_job!: true, has_azs?: true) }
+  let(:network) { instance_double('Bosh::Director::DeploymentPlan::Network', name: 'fake-network-name', validate_reference_from_job!: true, has_azs?: true, shared?: false) }
 
   let(:foo_properties) do
     {
@@ -186,7 +186,7 @@ describe Bosh::Director::DeploymentPlan::InstanceGroup do
       }
     end
 
-    let(:network2) { instance_double('Bosh::Director::DeploymentPlan::Network', name: 'fake-network-name2', validate_reference_from_job!: true, has_azs?: true) }
+    let(:network2) { instance_double('Bosh::Director::DeploymentPlan::Network', name: 'fake-network-name2', validate_reference_from_job!: true, has_azs?: true, shared?: false) }
 
     before do
       allow(plan).to receive(:networks).and_return([network, network2])
